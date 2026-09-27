@@ -1,0 +1,475 @@
+Here's the complete, current code:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dhruv Sah 💀 Crypt of a Class 10 Soul</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 font-size=%2280%22><text y=%2280%22>💀</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Creepster&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1a3a; --navy-light:#1c3a7a; --blood:#8a0303; --blood-bright:#d10000;
+  --bone:#ece8dd; --bg:#050508; --fog:rgba(28,58,122,.15); --navy-bright:#7c9beb;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px);}
+body{
+  background:var(--bg); color:var(--bone); font-family:'Poppins',sans-serif;
+  font-size:1.05rem; line-height:1.75; letter-spacing:.2px;
+  overflow-x:hidden; cursor:none; min-height:100%;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+p,li{max-width:70ch;}
+/* custom cursor */
+#cursor{position:fixed; width:22px; height:22px; border-radius:50%; border:2px solid var(--blood-bright);
+  pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .15s,height .15s,background .2s;
+  mix-blend-mode:screen;}
+#cursor.hover{width:44px; height:44px; background:rgba(209,0,0,.25);}
+
+/* fog layer */
+.fog{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;}
+.fog span{position:absolute; bottom:-20%; width:420px; height:420px; background:radial-gradient(circle, var(--fog), transparent 70%);
+  border-radius:50%; animation:drift linear infinite;}
+@keyframes drift{0%{transform:translateX(-10vw) translateY(0);}100%{transform:translateX(110vw) translateY(-40vh);}}
+
+/* entrance overlay */
+#gate{position:fixed; inset:0; background:#000; z-index:10000; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; gap:1.2rem; transition:opacity 1s ease;}
+#gate h1{font-family:'Nosifer',cursive; font-size:clamp(1.6rem,6vw,3.2rem); color:var(--blood-bright);
+  text-shadow:0 0 18px var(--blood); animation:flicker 3s infinite;}
+#gate p{opacity:.7; max-width:32ch;}
+#enterBtn{font-family:'Creepster',cursive; font-size:1.4rem; background:var(--blood); color:#fff; border:2px solid var(--navy-light);
+  padding:.8rem 2rem; cursor:pointer; letter-spacing:2px; border-radius:6px; box-shadow:0 0 20px var(--blood);}
+#enterBtn:hover{background:var(--blood-bright);}
+
+@keyframes flicker{
+  0%,19%,21%,23%,25%,54%,56%,100%{opacity:1;}
+  20%,24%,55%{opacity:.35;}
+}
+
+header{position:sticky; top:0; z-index:50; background:rgba(5,5,8,.85); backdrop-filter:blur(4px);
+  border-bottom:1px solid var(--navy-light); padding:.8rem 1rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;}
+header a{color:var(--bone); text-decoration:none; font-size:.95rem; padding:.3rem .6rem; border-radius:4px; transition:.25s;}
+header a:hover, header a.active{background:var(--blood); color:#fff; text-shadow:0 0 8px #fff;}
+
+#lightning{position:fixed; inset:0; background:#dfe8ff; opacity:0; pointer-events:none; z-index:9997;}
+.glitch{animation:glitchMove .25s linear;}
+@keyframes glitchMove{
+  0%{transform:translate(0,0); text-shadow:0 0 25px var(--blood);}
+  20%{transform:translate(-3px,2px); text-shadow:2px 0 var(--navy-bright), -2px 0 var(--blood-bright);}
+  40%{transform:translate(3px,-2px);}
+  60%{transform:translate(-2px,0); text-shadow:-2px 0 var(--navy-bright), 2px 0 var(--blood-bright);}
+  80%{transform:translate(2px,1px);}
+  100%{transform:translate(0,0); text-shadow:0 0 25px var(--blood);}
+}
+.spider{position:fixed; top:-40px; font-size:1.4rem; z-index:2; pointer-events:none; animation:lower linear forwards;}
+@keyframes lower{0%{top:-40px;}100%{top:60vh;}}
+
+main{position:relative; z-index:1; max-width:900px; margin:0 auto; padding:2rem 1.2rem 5rem;}
+
+section{margin-top:5rem; opacity:0; transform:translateY(30px); transition:opacity .8s ease, transform .8s ease;}
+section.show{opacity:1; transform:translateY(0);}
+
+.hero{text-align:center; margin-top:2rem;}
+.hero h1{font-family:'Nosifer',cursive; font-size:clamp(2rem,9vw,4.2rem); color:var(--blood-bright);
+  text-shadow:0 0 25px var(--blood), 0 0 60px var(--navy-light); animation:flicker 4s infinite;}
+.hero .type{font-family:'Poppins',sans-serif; font-weight:600; font-size:1.15rem; color:#fff;
+  border-right:2px solid var(--blood-bright);
+  white-space:nowrap; overflow:hidden; display:inline-block; margin-top:.8rem;}
+.hero .sub{margin-top:1.2rem; color:#9fb3e0; font-size:1rem;}
+
+h2.title{font-family:'Creepster',cursive; color:var(--navy-light); font-size:2rem; letter-spacing:2px;
+  border-bottom:2px dashed var(--blood); padding-bottom:.5rem; margin-bottom:1.2rem; text-shadow:0 0 10px var(--navy-light);}
+
+.card{background:linear-gradient(160deg,#0d0d14,#0a1024); border:1px solid var(--navy-light); border-radius:10px;
+  padding:1.4rem; margin-bottom:1rem; box-shadow:0 0 15px rgba(28,58,122,.25); transition:transform .3s, box-shadow .3s;}
+.card:hover{transform:translateY(-6px) rotate(-.5deg); box-shadow:0 0 30px var(--blood);}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.1rem;}
+
+.fav{border-left:4px solid var(--blood-bright);}
+.fav b{color:var(--navy-bright);}
+
+.social{display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;}
+.social a{font-size:1rem; text-decoration:none; color:var(--bone); background:var(--navy); border:1px solid var(--navy-light);
+  padding:.7rem 1.2rem; border-radius:30px; transition:.3s; display:flex; align-items:center; gap:.5rem;}
+.social a:hover{background:var(--blood); box-shadow:0 0 20px var(--blood-bright); transform:scale(1.08);}
+
+.contact-list{list-style:none;}
+.contact-list li{margin-bottom:.7rem; font-size:1rem;}
+.contact-list a{color:var(--navy-bright);}
+.contact-list a:hover{color:var(--blood-bright); text-shadow:0 0 8px var(--blood-bright);}
+
+footer{text-align:center; padding:2rem 1rem; color:#555; font-size:.85rem; border-top:1px solid var(--navy-light); position:relative; z-index:1;}
+.bat{position:fixed; font-size:1.5rem; pointer-events:none; z-index:2; animation:fly linear infinite;}
+@keyframes fly{0%{transform:translate(-10vw,10vh) scale(1);}50%{transform:translate(50vw,-5vh) scale(1.3);}100%{transform:translate(110vw,20vh) scale(1);}}
+
+#musicToggle{position:fixed; bottom:16px; right:16px; z-index:9998; background:var(--blood); color:#fff; border:2px solid var(--navy-light);
+  border-radius:50%; width:56px; height:56px; font-size:1.4rem; cursor:pointer; box-shadow:0 0 20px var(--blood);}
+
+#scareBtn{position:fixed; bottom:16px; left:16px; z-index:9998; background:#000; color:var(--blood-bright);
+  border:2px solid var(--blood-bright); border-radius:30px; padding:.7rem 1.1rem; font-family:'Creepster',cursive;
+  font-size:1rem; letter-spacing:1px; cursor:pointer; box-shadow:0 0 15px var(--blood); animation:temptPulse 2s ease-in-out infinite;}
+@keyframes temptPulse{0%,100%{box-shadow:0 0 12px var(--blood);}50%{box-shadow:0 0 28px var(--blood-bright);}}
+
+#jumpscare{position:fixed; inset:0; z-index:99999; background:#000; display:none; align-items:center; justify-content:center;
+  flex-direction:column; gap:1rem;}
+#jumpscare.active{display:flex; animation:scareFlash .15s steps(2) 4;}
+#jumpscareFace{font-size:min(45vw,320px); animation:facePulse .25s ease-in-out infinite alternate; filter:drop-shadow(0 0 40px var(--blood-bright));}
+#jumpscareText{font-family:'Nosifer',cursive; color:var(--blood-bright); font-size:clamp(1.4rem,5vw,2.6rem); text-shadow:0 0 20px var(--blood);}
+@keyframes scareFlash{0%{background:#000;}50%{background:#3a0000;}100%{background:#000;}}
+@keyframes facePulse{0%{transform:scale(1);}100%{transform:scale(1.15) rotate(2deg);}}
+body.shake{animation:screenShake .12s linear 8;}
+@keyframes screenShake{
+  0%{transform:translate(0,0);}20%{transform:translate(-8px,4px);}40%{transform:translate(8px,-6px);}
+  60%{transform:translate(-6px,-4px);}80%{transform:translate(6px,6px);}100%{transform:translate(0,0);}
+}
+
+.blood-drip{position:absolute; top:0; width:3px; background:var(--blood-bright); opacity:.6; animation:drip 4s linear infinite;}
+@keyframes drip{0%{height:0; top:0;}100%{height:100vh; top:100vh;}}
+
+::selection{background:var(--blood); color:#fff;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:none !important;}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div class="fog" id="fog"></div>
+<div id="lightning"></div>
+
+<div id="gate">
+  <h1>👻 ENTER THE CRYPT 👻</h1>
+  <p>You are about to trespass into the haunted portfolio of a 16-year-old soul. Turn back... or dare to click below. 🩸</p>
+  <button id="enterBtn">🕯️ Enter If You Dare 🕯️</button>
+</div>
+
+<audio id="bgm" loop preload="auto"></audio>
+<button id="musicToggle" title="toggle sound">🔇</button>
+<button id="scareBtn">🚫 Do NOT Click 👻</button>
+
+<div id="jumpscare">
+  <div id="jumpscareFace">👹</div>
+  <div id="jumpscareText">YOU WERE WARNED</div>
+</div>
+
+<header id="nav">
+  <a href="#whoami">👋 Who Am I</a>
+  <a href="#education">📓 School</a>
+  <a href="#favs">🎃 Favorites</a>
+  <a href="#social">🦇 Socials</a>
+  <a href="#contact">📞 Contact</a>
+</header>
+
+<main>
+  <section class="hero show" id="top">
+    <h1>DHRUV SAH</h1>
+    <div class="type" id="typeText"></div>
+    <p class="sub">💀 A wandering spirit of Class 10, haunting Adarsha Secondary School 💀</p>
+  </section>
+
+  <section id="whoami">
+    <h2 class="title">👋 Who Am I?</h2>
+    <div class="card">
+      <p>Hi! I'm <b>Dhruv Sah</b>, a 16-year-old Class 10 student studying at <b>Adarsha Secondary School</b>.
+      I live in <b>Biratnagar-10, Morang, Nepal</b>.</p>
+      <p style="margin-top:.9rem;">I enjoy learning new things, exploring technology, playing games, watching movies,
+      following football, and dreaming about the places I want to visit.</p>
+      <p style="margin-top:.9rem;">This website is a small window into my world, my interests, my goals, and the
+      things that make me... me. 👻</p>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2 class="title">📓 The School Chronicles</h2>
+    <div class="card">
+      <p>🏫 <b>School:</b> Adarsha Secondary School<br>
+      🎓 <b>Class:</b> 10<br>
+      📐 <b>Favorite Subject:</b> Maths — the only spell book that never lies 🔢<br>
+      🏠 <b>Resting Place:</b> Biratnagar-10, Morang, Nepal 🇳🇵</p>
+    </div>
+  </section>
+
+  <section id="favs">
+    <h2 class="title">🎃 Favorite Cursed Things</h2>
+    <div class="grid">
+      <div class="card fav"><b>🎨 Color:</b> Navy Blue</div>
+      <div class="card fav"><b>🥟 Food:</b> Momo & Biryani</div>
+      <div class="card fav"><b>🍛 Home Meal:</b> Bhaat, Masu (meat) & Saag</div>
+      <div class="card fav"><b>⚽ Sport:</b> Football</div>
+      <div class="card fav"><b>🎮 Games:</b> Minecraft & GTA 5</div>
+      <div class="card fav"><b>❄️ Season:</b> Winter</div>
+      <div class="card fav"><b>🏔️ Dream Destination:</b> Switzerland 🇨🇭 (I will go, I swear on it 🩸)</div>
+      <div class="card fav"><b>📐 Subject:</b> Mathematics</div>
+      <div class="card fav"><b>🎬 Hobby:</b> Watching horror movies at midnight 🌙</div>
+      <div class="card fav"><b>🎧 Vibe:</b> Lo-fi beats while coding spells (code)</div>
+    </div>
+  </section>
+
+  <section id="social">
+    <h2 class="title">🦇 Haunt Me on Socials</h2>
+    <div class="social">
+      <a href="https://facebook.com" target="_blank" rel="noopener">📘 Facebook</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener">📸 Instagram</a>
+      <a href="https://youtube.com" target="_blank" rel="noopener">▶️ YouTube</a>
+      <a href="https://tiktok.com" target="_blank" rel="noopener">🎵 TikTok</a>
+      <a href="https://twitter.com" target="_blank" rel="noopener">🐦 X / Twitter</a>
+      <a href="https://telegram.org" target="_blank" rel="noopener">✈️ Telegram</a>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2 class="title">📞 Summon Me</h2>
+    <div class="card">
+      <ul class="contact-list">
+        <li>📱 Phone: <a href="tel:+9779827305644">+977 9827305644</a></li>
+        <li>✉️ Email: <a href="mailto:dhrubshah589@gmail.com">dhrubshah589@gmail.com</a></li>
+        <li>📍 Address: Biratnagar-10, Morang, Nepal</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>© 2026 Dhruv Sah 💀 — Built in the dead of night with HTML, CSS & dark magic (JS)</footer>
+
+<script>
+/* ---------- Entrance gate + audio unlock ---------- */
+const gate=document.getElementById('gate');
+const enterBtn=document.getElementById('enterBtn');
+const bgm=document.getElementById('bgm');
+const musicToggle=document.getElementById('musicToggle');
+let audioCtx,masterGain,started=false;
+
+function startAmbientMusic(){
+  if(started) return; started=true;
+  try{
+    audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    masterGain=audioCtx.createGain(); masterGain.gain.value=0.25; masterGain.connect(audioCtx.destination);
+
+    // Layer 1: bouncy circus-style arpeggio loop
+    const notes=[261.63,329.63,392.00,329.63,440.00,392.00,329.63,293.66];
+    let step=0;
+    function playNote(){
+      const o=audioCtx.createOscillator(); o.type='triangle'; o.frequency.value=notes[step%notes.length];
+      const g=audioCtx.createGain(); g.gain.value=0;
+      o.connect(g).connect(masterGain);
+      const t=audioCtx.currentTime;
+      g.gain.linearRampToValueAtTime(0.12,t+0.02);
+      g.gain.exponentialRampToValueAtTime(0.001,t+0.28);
+      o.start(t); o.stop(t+0.3);
+      step++;
+      setTimeout(playNote, 260);
+    }
+    playNote();
+
+    // Layer 2: goofy "ha-ha-ha" laugh bursts
+    function laugh(){
+      const hahas=3+Math.floor(Math.random()*3);
+      for(let i=0;i<hahas;i++){
+        setTimeout(()=>{
+          const o=audioCtx.createOscillator(); o.type='square';
+          const baseFreq=180+Math.random()*40;
+          const t=audioCtx.currentTime;
+          o.frequency.setValueAtTime(baseFreq,t);
+          o.frequency.exponentialRampToValueAtTime(baseFreq*1.6,t+0.08);
+          o.frequency.exponentialRampToValueAtTime(baseFreq*0.8,t+0.18);
+          const g=audioCtx.createGain(); g.gain.value=0;
+          o.connect(g).connect(masterGain);
+          g.gain.linearRampToValueAtTime(0.18,t+0.02);
+          g.gain.exponentialRampToValueAtTime(0.001,t+0.2);
+          o.start(t); o.stop(t+0.22);
+        }, i*150);
+      }
+      setTimeout(laugh, 4000+Math.random()*5000);
+    }
+    setTimeout(laugh, 1500);
+
+    // Layer 3: occasional cartoon boing
+    function boing(){
+      const o=audioCtx.createOscillator(); o.type='sine';
+      const t=audioCtx.currentTime;
+      o.frequency.setValueAtTime(600,t);
+      o.frequency.exponentialRampToValueAtTime(80,t+0.4);
+      const g=audioCtx.createGain(); g.gain.value=0;
+      o.connect(g).connect(masterGain);
+      g.gain.linearRampToValueAtTime(0.15,t+0.03);
+      g.gain.exponentialRampToValueAtTime(0.001,t+0.45);
+      o.start(t); o.stop(t+0.5);
+      setTimeout(boing, 6000+Math.random()*8000);
+    }
+    setTimeout(boing, 3000);
+
+    musicToggle.textContent='🔊';
+  }catch(e){ console.log('audio unavailable',e); }
+}
+function toggleMusic(){
+  if(!started){ startAmbientMusic(); return; }
+  if(audioCtx.state==='running'){ audioCtx.suspend(); musicToggle.textContent='🔇'; }
+  else{ audioCtx.resume(); musicToggle.textContent='🔊'; }
+}
+musicToggle.addEventListener('click', toggleMusic);
+enterBtn.addEventListener('click',()=>{
+  startAmbientMusic();
+  gate.style.opacity='0';
+  setTimeout(()=>gate.style.display='none',1000);
+});
+
+/* ---------- Custom cursor ---------- */
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px';
+});
+document.querySelectorAll('a,button,.card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cursor.classList.add('hover'));
+  el.addEventListener('mouseleave',()=>cursor.classList.remove('hover'));
+});
+
+/* ---------- Fog particles ---------- */
+const fog=document.getElementById('fog');
+for(let i=0;i<6;i++){
+  const s=document.createElement('span');
+  s.style.left=(Math.random()*100)+'%';
+  s.style.animationDuration=(18+Math.random()*14)+'s';
+  s.style.animationDelay=(Math.random()*10)+'s';
+  s.style.opacity=0.3+Math.random()*0.4;
+  fog.appendChild(s);
+}
+
+/* ---------- Floating bats ---------- */
+function spawnBat(){
+  const b=document.createElement('div'); b.className='bat'; b.textContent='🦇';
+  b.style.top=(Math.random()*70)+'vh';
+  b.style.animationDuration=(6+Math.random()*6)+'s';
+  document.body.appendChild(b);
+  setTimeout(()=>b.remove(), 13000);
+}
+setInterval(spawnBat, 3500);
+spawnBat();
+
+/* ---------- Typing effect ---------- */
+const phrases=["Class 10 Student 📓","Football Fanatic ⚽","Minecraft Builder 🧱","GTA 5 Wanderer 🚗","Momo Lover 🥟","Future Switzerland Traveler 🏔️"];
+const typeEl=document.getElementById('typeText');
+let pIndex=0,charIndex=0,deleting=false;
+function typeLoop(){
+  const current=phrases[pIndex];
+  if(!deleting){
+    charIndex++; typeEl.textContent=current.slice(0,charIndex);
+    if(charIndex===current.length){ deleting=true; setTimeout(typeLoop,1400); return; }
+  } else {
+    charIndex--; typeEl.textContent=current.slice(0,charIndex);
+    if(charIndex===0){ deleting=false; pIndex=(pIndex+1)%phrases.length; }
+  }
+  setTimeout(typeLoop, deleting?60:110);
+}
+typeLoop();
+
+/* ---------- Scroll reveal ---------- */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{ if(en.isIntersecting) en.target.classList.add('show'); });
+},{threshold:0.15});
+document.querySelectorAll('section').forEach(s=>obs.observe(s));
+
+/* ---------- Random blood drips ---------- */
+function spawnDrip(){
+  const d=document.createElement('div'); d.className='blood-drip';
+  d.style.left=(Math.random()*100)+'vw';
+  d.style.animationDuration=(3+Math.random()*3)+'s';
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),6500);
+}
+setInterval(spawnDrip, 2200);
+
+/* ---------- Random lightning flash (with thunder thump) ---------- */
+const lightning=document.getElementById('lightning');
+function flash(){
+  lightning.style.transition='none'; lightning.style.opacity='0.8';
+  setTimeout(()=>{
+    lightning.style.transition='opacity .6s ease'; lightning.style.opacity='0';
+  },80);
+  if(started && audioCtx){
+    const o=audioCtx.createOscillator(); o.type='sine'; o.frequency.value=40;
+    const g=audioCtx.createGain(); g.gain.value=0;
+    o.connect(g).connect(masterGain);
+    const t=audioCtx.currentTime;
+    g.gain.linearRampToValueAtTime(0.3,t+0.05);
+    g.gain.exponentialRampToValueAtTime(0.001,t+1.5);
+    o.start(t); o.stop(t+1.6);
+  }
+  setTimeout(flash, 12000+Math.random()*18000);
+}
+setTimeout(flash, 6000);
+
+/* ---------- Scrollspy: auto-highlight active nav link ---------- */
+const navLinks=[...document.querySelectorAll('#nav a')];
+const navObs=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      navLinks.forEach(l=>l.classList.remove('active'));
+      const match=navLinks.find(l=>l.getAttribute('href')==='#'+en.target.id);
+      if(match) match.classList.add('active');
+    }
+  });
+},{threshold:0.4});
+document.querySelectorAll('main section[id]').forEach(s=>navObs.observe(s));
+
+/* ---------- Auto glitch pulse on the name ---------- */
+const heroTitle=document.querySelector('.hero h1');
+setInterval(()=>{
+  heroTitle.classList.add('glitch');
+  setTimeout(()=>heroTitle.classList.remove('glitch'), 260);
+}, 5000);
+
+/* ---------- Crawling spiders ---------- */
+function spawnSpider(){
+  const s=document.createElement('div'); s.className='spider'; s.textContent='🕷️';
+  s.style.left=(Math.random()*95)+'vw';
+  s.style.animationDuration=(5+Math.random()*4)+'s';
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(), 9500);
+}
+setInterval(spawnSpider, 7000);
+
+/* ---------- Do NOT Click jumpscare ---------- */
+const scareBtn=document.getElementById('scareBtn');
+const jumpscare=document.getElementById('jumpscare');
+function playScareSting(){
+  if(!started) startAmbientMusic();
+  if(!audioCtx) return;
+  const t=audioCtx.currentTime;
+  // harsh dissonant stab
+  [110,116,233,349].forEach(freq=>{
+    const o=audioCtx.createOscillator(); o.type='sawtooth'; o.frequency.value=freq;
+    const g=audioCtx.createGain(); g.gain.value=0;
+    o.connect(g).connect(masterGain);
+    g.gain.linearRampToValueAtTime(0.35,t+0.02);
+    g.gain.exponentialRampToValueAtTime(0.001,t+1.6);
+    o.start(t); o.stop(t+1.7);
+  });
+  // sharp noise crack
+  const bufferSize=audioCtx.sampleRate*0.4;
+  const buf=audioCtx.createBuffer(1,bufferSize,audioCtx.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<bufferSize;i++) d[i]=(Math.random()*2-1)*(1-i/bufferSize);
+  const crack=audioCtx.createBufferSource(); crack.buffer=buf;
+  const crackGain=audioCtx.createGain(); crackGain.gain.value=0.5;
+  crack.connect(crackGain).connect(masterGain); crack.start(t);
+}
+scareBtn.addEventListener('click',()=>{
+  playScareSting();
+  document.body.classList.add('shake');
+  jumpscare.classList.add('active');
+  setTimeout(()=>document.body.classList.remove('shake'),1000);
+  setTimeout(()=>jumpscare.classList.remove('active'),1400);
+});
+</script>
+</body>
+</html>
+```
